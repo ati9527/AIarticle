@@ -9,27 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let currentController = null;
 
-    // API配置
-    const API_CONFIGS = {
-        siliconflow: {
-            endpoint: '/api/generate'  // 改用后端API
-        },
-        openrouter: {
-            endpoint: '/api/generate'  // 改用后端API
-        }
-    };
-
     async function makeApiRequest(promptContent) {
         try {
             const modelSelect = document.getElementById('modelSelect');
             const selectedOption = modelSelect.options[modelSelect.selectedIndex];
             const apiProvider = selectedOption.dataset.provider;
             const model = modelSelect.value;
-            const config = API_CONFIGS[apiProvider];
-
-            if (!config) {
-                throw new Error('未选择有效的API提供商');
+            
+            // 检查配置是否存在
+            if (!window.API_CONFIGS || !window.API_CONFIGS[apiProvider]) {
+                throw new Error('API 配置错误，请检查 config.js 是否正确加载');
             }
+
+            const config = window.API_CONFIGS[apiProvider];
 
             const outputText = document.getElementById('outputText');
             const loading = document.getElementById('loading');
@@ -86,33 +78,15 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             const response = await fetch(config.endpoint, options);
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                const chunk = decoder.decode(value);
-                const lines = chunk.split('\n');
-
-                for (const line of lines) {
-                    if (line.startsWith('data: ')) {
-                        const data = line.slice(6);
-                        if (data === '[DONE]') continue;
-                        
-                        try {
-                            const json = JSON.parse(data);
-                            const content = json.choices[0].delta?.content || '';
-                            textContent += content;
-                            outputText.innerHTML = marked.parse(textContent);
-                        } catch (e) {
-                            console.error('解析错误:', e);
-                        }
-                    }
-                }
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
             }
+
+            const content = data.choices[0].message.content;
+            textContent = content;
+            outputText.innerHTML = marked.parse(textContent);
 
             // 添加复制按钮
             const copyButton = document.createElement('button');
