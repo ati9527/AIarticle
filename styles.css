@@ -1,0 +1,189 @@
+body {
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f9;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+button:hover {
+    background-color: #096dd9;
+}
+
+#outputWrapper {
+    margin-top: 30px;
+    border-top: 2px solid #eee;
+    padding-top: 20px;
+}
+
+.markdown-body {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    line-height: 1.6;
+    font-size: 16pt; /* 三号字体大小 */
+}
+
+/* Markdown 样式优化 */
+.markdown-body h1 { 
+    font-size: 24px; 
+    margin-top: 24px; 
+    margin-bottom: 16px; 
+    font-family: "FZXiaoBiaoSong-B05S", "方正小标宋简体", SimSun, serif;
+    font-size: 22pt;
+    text-align: center;
+    margin: 30px 0;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+.markdown-body h2 { 
+    font-size: 20px; 
+    margin-top: 20px; 
+    margin-bottom: 14px; 
+    font-family: "SimHei", "黑体", sans-serif;
+    font-size: 16pt;
+    margin: 20px 0;
+    line-height: 1.4;
+}
+
+.markdown-body h3 { 
+    font-size: 18px; 
+    margin-top: 18px; 
+    margin-bottom: 12px; 
+    font-family: "SimHei", "黑体", sans-serif;
+    font-size: 16pt;
+    margin: 20px 0;
+    line-height: 1.4;
+}
+
+.markdown-body p { 
+    margin: 12px 0; 
+    text-indent: 2em; 
+    font-family: "FangSong", "仿宋", FangSong, serif;
+    font-size: 16pt;
+    line-height: 1.8;
+    margin: 1em 0;
+}
+
+.markdown-body ul, .markdown-body ol { 
+    padding-left: 2em; 
+    font-family: "FangSong", "仿宋", FangSong, serif;
+    font-size: 16pt;
+    line-height: 1.8;
+    margin: 1em 0;
+}
+
+@media print {
+    .markdown-body {
+        font-size: 16pt;
+    }
+    
+    .markdown-body h1 {
+        font-size: 22pt;
+    }
+    
+    .markdown-body h2, .markdown-body h3, .markdown-body p {
+        font-size: 16pt;
+    }
+}
+
+.sponsor-link {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.sponsor-link a {
+    color: #1890ff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.sponsor-link a:hover {
+    text-decoration: underline;
+}
+
+.qr-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.qr-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 300px;
+}
+
+.qr-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #666;
+}

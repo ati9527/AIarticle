@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组工信息写作助手（测试版）</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="loading.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chinese-font@1.0.0/dist/fonts.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.0/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>组工信息写作助手(测试版)</h1>
+        
+        <div class="api-settings">
+            <div class="input-group">
+                <label>模型选择：</label>
+                <select id="modelSelect">
+                    <option value="google/gemini-2.0-flash-lite-preview-02-05:free" data-provider="openrouter">Gemini Flash Lite(推荐，快而且效果还行)</option>
+                     <option value="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B" data-provider="siliconflow">DeepSeek开过光的通义千问-7B(效果不咋行，但免费)</option>
+                    <option value="deepseek-ai/DeepSeek-V3" data-provider="siliconflow">DeepSeek-V3</option>
+                    <option value="deepseek-ai/DeepSeek-R1" data-provider="siliconflow">DeepSeek-R1</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="region">地区：</label>
+            <input type="text" id="region" placeholder="请输入地区名称">
+        </div>
+        
+        <div class="input-group">
+            <label>主题选择：</label>
+            <select id="topic">
+                <option value="干部工作">干部（公务员）工作</option>
+                <option value="人才工作">人才工作</option>
+                <option value="基层党建">基层党建</option>
+                <option value="组织部自身建设">自身建设</option>
+                <option value="custom">其他（自定义）</option>
+            </select>
+            <input type="text" id="customTopic" placeholder="请输入自定义主题" style="display: none;">
+        </div>
+
+        <div class="input-group">
+            <label for="highlights">工作亮点：</label>
+            <textarea id="highlights" placeholder="请输入主要工作亮点和创新做法"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="inputText">具体内容（注意保密，别瞎把数据写进去）：</label>
+            <textarea id="inputText" placeholder="请输入具体工作内容和成效..."></textarea>
+        </div>
+
+        <button id="generateButton">生成文章</button>
+
+        <div id="outputWrapper">
+            <div id="outputText" class="markdown-body"></div>
+            <div id="loading" class="loading-container" style="display: none;">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">正在生成文章...（只是生成的慢，耐心等等）</div>
+                <button id="cancelButton" class="cancel-button">取消生成</button>
+            </div>
+        </div>
+    </div>
+    <div class="sponsor-link">
+        <a href="#" id="sponsorLink">赞助作者</a>
+    </div>
+    <div class="qr-modal" id="qrModal">
+        <div class="qr-content">
+            <span class="qr-close" id="qrClose">&times;</span>
+            <h3>请我喝杯咖啡！</h3>
+            <img src="https://img.picui.cn/free/2025/02/25/67bdb8843c53a.png" alt="赞助二维码" style="width: 200px; height: 200px;">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
