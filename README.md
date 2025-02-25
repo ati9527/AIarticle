@@ -7,13 +7,15 @@
 
 一个基于 AI 的组工信息写作辅助工具。
 
-## 部署说明
+## 部署步骤
 
 1. Fork 本仓库
-2. 复制 `config.example.js` 为 `config.js`
-3. 在 `config.js` 中填入你的 API 密钥
-4. 在仓库设置中启用 GitHub Pages（选择 main 分支）
-5. 访问 `https://你的用户名.github.io/AIarticle` 使用
+2. 进入仓库设置 Settings -> Pages
+3. Source 选择 "Deploy from a branch"
+4. Branch 选择 "main" 和 "/(root)"
+5. 点击 Save
+6. 复制 `config.example.js` 为 `config.js` 并填入你的 API 密钥
+7. 访问 `https://你的用户名.github.io/AIarticle`
 
 ## 注意事项
 

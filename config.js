@@ -6,6 +6,6 @@ window.API_CONFIGS = {
     },
     openrouter: {
         endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-        apiKey: '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'
+        apiKey: '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'
     }
 };

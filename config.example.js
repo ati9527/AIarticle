@@ -2,10 +2,10 @@
 window.API_CONFIGS = {
     siliconflow: {
         endpoint: 'https://api.siliconflow.cn/v1/chat/completions',
-        apiKey: 'your-siliconflow-api-key'
+        apiKey: '你的API密钥'
     },
     openrouter: {
         endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-        apiKey: 'your-openrouter-api-key'
+        apiKey: '你的API密钥'
     }
 };
