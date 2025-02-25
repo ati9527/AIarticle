@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 添加配置检查
+    if (!window.API_CONFIGS) {
+        console.error('API配置未加载');
+        alert('配置文件加载失败，请检查网络连接或刷新页面重试');
+        return;
+    }
+
     const topicSelect = document.getElementById('topic');
     const customTopicInput = document.getElementById('customTopic');
 
@@ -39,52 +46,54 @@ document.addEventListener('DOMContentLoaded', function() {
             const options = {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${config.apiKey}`,
+                    'HTTP-Referer': 'https://github.com',  // OpenRouter需要这个
+                    'X-Title': 'AI Article Generator'      // OpenRouter需要这个
                 },
                 signal: currentController.signal,
                 body: JSON.stringify({
-                    provider: apiProvider,
                     model: model,
                     messages: [
-                        { role: "system", content: `您是一位专业的组工信息写作助手。请严格按照示例文章的写作结构和风格来写作：
-1. 标题要凝练有力，突出地方特色和工作要点
-2. 正文要分3-4个部分，每部分都要有个副标题
-3. 每个部分要突出具体举措，要有具体的数据支撑
-4. 文风要朴实严谨，采用总-分结构
-5. 重点是体现组织部门工作的特色，避免写成工作总结` },
-                        { role: "user", content: `请参考以下示例文章的结构，生成一篇组工信息：
-
-示例文章：
-标题：德阳市突出重点抓住关键全力推动基本培训任务落实落地
-
-突出精准规范，答好组织部门"怎么调"问题。（第一部分具体工作）...
-夯实办学保障，答好党校系统"怎么训"问题。（第二部分具体工作）...
-聚焦关键对象，答好重点培训"抓什么"问题。（第三部分具体工作）...
-
-请按照上述结构，围绕以下内容生成文章：
-地区：${region}
-主题方向：${topic}
-工作亮点：${highlights}
-具体内容：${inputText}
-
-要求：
-1. 保持示例文章的结构形式
-2. 每个部分都要有明确的小标题
-3. 重点突出创新性做法和具体数据
-4. 语言要朴实严谨，避免空洞说教
-5. 注意规范用语，使用组织工作专业用语` }
-                    ]
+                        { role: "system", content: "您是一位专业的组工信息写作助手..." },
+                        { role: "user", content: promptContent }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 2048
                 })
             };
+
+            // 根据不同的API提供商调整请求格式
+            if (apiProvider === 'openrouter') {
+                options.headers['HTTP-Referer'] = 'https://github.com';
+                options.headers['X-Title'] = 'AI Article Generator';
+            }
 
             const response = await fetch(config.endpoint, options);
             const data = await response.json();
             
+            console.log('API Response:', data); // 添加调试日志
+            
+            // 添加数据结构验证
+            if (!data) {
+                throw new Error('API返回数据为空');
+            }
+
             if (data.error) {
                 throw new Error(data.error);
             }
 
-            const content = data.choices[0].message.content;
+            // 检查返回数据结构
+            if (!data.choices || !Array.isArray(data.choices) || data.choices.length === 0) {
+                throw new Error('API返回数据格式错误：' + JSON.stringify(data));
+            }
+
+            const choice = data.choices[0];
+            if (!choice || !choice.message || !choice.message.content) {
+                throw new Error('API返回内容格式错误：' + JSON.stringify(choice));
+            }
+
+            const content = choice.message.content;
             textContent = content;
             outputText.innerHTML = marked.parse(textContent);
 
@@ -101,7 +110,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error('API请求错误:', error);
-            document.getElementById('outputText').innerHTML = `<p style="color: red;">错误：${error.message}</p>`;
+            let errorMessage = '发生错误：';
+            if (error.name === 'AbortError') {
+                errorMessage += '请求已取消';
+            } else if (typeof error === 'object') {
+                errorMessage += JSON.stringify(error.message || error);
+            } else {
+                errorMessage += error.toString();
+            }
+            document.getElementById('outputText').innerHTML = `<p style="color: red;">${errorMessage}</p>`;
             document.getElementById('loading').style.display = 'none';
         } finally {
             loading.style.display = 'none';

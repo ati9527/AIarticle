@@ -1,5 +1,5 @@
-// 注意：这个文件不要提交到 Gitee，将它加入 .gitignore
-const API_CONFIGS = {
+// 注意：这个文件不要提交到 GitHub，将它加入 .gitignore
+window.API_CONFIGS = {
     siliconflow: {
         endpoint: 'https://api.siliconflow.cn/v1/chat/completions',
         apiKey: 'sk-dpujdzowxshljattbaizdkaklnrjbamxfurbsddbftzoebwu'
